@@ -46,3 +46,20 @@ with open("comments.txt", "w", encoding="GBK", errors="ignore") as f:
         for i in comments_list:
             f.write(str(i))
             f.write("\n")
+            
+#过滤  
+          
+filter = list()
+with open('comments.txt','r',errors='ignore') as f:
+    lines = f.readlines()
+    for s in lines:
+        word = re.findall('[\u4e00-\u9fa5]', s)
+        if len(word) == 0:
+            continue
+        else:
+            new = ''.join(word)
+        filter.append(new)
+#写入新的TXT文档
+with open('filter_comments.txt','w') as f:
+    for s in filter:
+        f.write(s)       
