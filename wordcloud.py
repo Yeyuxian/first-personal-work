@@ -26,3 +26,23 @@ m = 1
 print(now,n,m)
 cursor = 0
 
+#获取评论
+for i in range(rangetime):
+    print("获取第{}集，第{}页的评论".format(str(n),str(m)))
+    url_content = 'https://video.coral.qq.com/varticle/5963120294/comment/v2?callback=_varticle5963120294commentv2&orinum=10&oriorder=o&pageflag=1&cursor=' + str(cursor) + '&scorecursor=0&orirepnum=2&reporder=o&reppageflag=1&source=132&_=' + str(t)
+    html = requests.get(url_content,headers=headers).content.decode()
+    contents = re.findall('"content":"(.*?)"',html,re.S)[0]
+    cursor = re.findall(',"last":"(.*?)",',html,re.S)[0]
+    m += 1
+    t = now
+    now += 1
+    #print(contents)
+    comments_list.append(contents)
+    #print(comments_list)
+    
+#写入TXT文档
+
+with open("comments.txt", "w", encoding="GBK", errors="ignore") as f:
+        for i in comments_list:
+            f.write(str(i))
+            f.write("\n")
